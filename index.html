@@ -96,7 +96,8 @@
             content: "當功法超出單人負荷時，依靠宗門大陣：",
             points: [
               "資料並行 (Data Parallelism)：影分身！模型一樣，資料切片，分給不同 GPU 算完後更新梯度。",
-              "模型並行 (Model Parallelism)：接力賽！模型太大（如 LLM），切開模型分給不同 GPU 接力算。"
+              "模型並行 (Model Parallelism)：接力賽！模型太大（如 LLM），切開模型分給不同 GPU 接力算。",
+              "ZeRO (零冗餘最佳化)：終極陣法！表面像資料並行，實則將「參數、梯度、優化器狀態」切碎分散存在各 GPU，極大化節省空間又快，常用於 DeepSpeed！"
             ]
           },
           {
@@ -372,6 +373,16 @@
               { text: "Recall (召回率) - 真正的內鬼裡面，有多少被成功抓出來", isCorrect: true, roast: "深諳殺伐之道！Recall 追求的是「覆蓋率」，寧可多抓無辜（False Positive高），也絕不漏掉目標（False Negative極低）！" },
               { text: "Accuracy (準確率) - 總體猜對的比例就好", isCorrect: false, roast: "內鬼是極少數，全猜「正常人」準確率也很高，堂主會把你當內鬼一起砍了！" }
             ]
+          },
+          {
+            id: 21,
+            title: "第二十一劫：終極大陣的奧秘",
+            question: "掌門發現即使把資料切片（資料並行），每個長老的識海（GPU 記憶體）還是會被龐大的「優化器狀態與梯度」給撐爆。這時大長老祭出了一門叫 ZeRO（零冗餘最佳化）的絕世陣法，這陣法的核心奧秘是？",
+            options: [
+              { text: "將模型的層數像接力賽一樣切開，每個長老只負責練其中一層。", isCorrect: false, roast: "這叫「模型並行 (Model Parallelism)」！ZeRO 不是這樣切的，你連陣法名字都搞混，罰抄陣法圖譜一百遍！" },
+              { text: "表面上維持資料並行的架構，但將原本每個長老都要備份的「模型參數、梯度、優化器狀態」切碎分散存儲在所有人身上，大幅節省記憶體。", isCorrect: true, roast: "神機妙算！ZeRO 陣法完美結合了資料並行的好處，又解決了記憶體冗餘的問題，堪稱 LLM 時代的護宗大陣！" },
+              { text: "在訓練前將大部分的模型權重刪除，變成一個極小的模型來訓練。", isCorrect: false, roast: "這叫剪枝 (Pruning) 或知識蒸餾！隨便刪除權重會讓陣法威力大減，ZeRO 追求的是一刀不剪還能省空間！" }
+            ]
           }
         ];
 
@@ -446,7 +457,7 @@
                       }`}
                     >
                       <IconSwords className="w-5 h-5" />
-                      二十重雷劫 (測驗)
+                      極限雷劫 (測驗)
                     </button>
                   </div>
                 </div>
@@ -579,14 +590,14 @@
                       /* 結果結算區 */
                       <div className="text-center py-10 animate-fade-in">
                         <IconFlame className="w-24 h-24 mx-auto text-rose-500 mb-6 drop-shadow-lg" />
-                        <h2 className="text-4xl font-bold text-slate-800 mb-4">二十重雷劫結束！</h2>
+                        <h2 className="text-4xl font-bold text-slate-800 mb-4">極限雷劫結束！</h2>
                         <div className="text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-rose-500 my-8">
-                          {score * 5} <span className="text-2xl text-slate-500 font-bold">分</span>
+                          {Math.round((score / quizData.length) * 100)} <span className="text-2xl text-slate-500 font-bold">分</span>
                         </div>
                         <p className="text-xl text-slate-600 mb-10 leading-relaxed max-w-lg mx-auto font-medium">
-                          {score === 20 ? "萬法歸宗，天資絕頂！二十重雷劫皆破，道友已具備飛升 iPAS 規劃師的絕對實力！" : 
-                           score >= 12 ? "雖有小成，但仍會被幻象（陷阱選項）迷惑。建議回『藏經閣』重新鞏固道基！" : 
-                           "走火入魔！這點實力也敢來連闖二十陣？速速回藏經閣把講義抄寫一百遍！"}
+                          {score === quizData.length ? "萬法歸宗，天資絕頂！全數雷劫皆破，道友已具備飛升 iPAS 規劃師的絕對實力！" : 
+                           score >= Math.floor(quizData.length * 0.6) ? "雖有小成，但仍會被幻象（陷阱選項）迷惑。建議回『藏經閣』重新鞏固道基！" : 
+                           "走火入魔！這點實力也敢來連闖雷劫？速速回藏經閣把講義抄寫一百遍！"}
                         </p>
                         <div className="flex justify-center gap-4">
                           <button
